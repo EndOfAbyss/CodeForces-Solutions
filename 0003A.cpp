@@ -1,49 +1,89 @@
 #include <iostream>
+#include <math.h>
+
 using namespace std;
 
-int buscaTriangulo(int m, int n, int p) {
-	int min = m;
-	int med;
-	int max = m;
-	
-	if(n < min)	min = n;
-	if(p < min) min = p;
-	if(n > max) max = n;
-	if(p > max) max = p;
-	
-	med = m + n + p - min - max;
-	
-	if((max-min)<med && med<(max+min) && (max-med)<min && min<(max+med) && (med-min)<max && max<(med+min))
-		return 1;
-	
-	if((m == n+p) || (n == m+p) || (p == n+m))
-		return 2;
-	
-	return 3;
-}
-
 int main() {
-	int a, b, c, d;
+	int tablero[8][8];
 	
-	cin >> a >> b >> c >> d;
+	int recorrido;
 	
-	int resultado;
-	int r;
+	char x, y;
 	
-	resultado = buscaTriangulo(a, b, c);
+	char x0, y0;
+	char xf, yf;
 	
-	r = buscaTriangulo(a, b, d);
-	if(r < resultado)	resultado = r;
+	char entrada[2];
 	
-	r = buscaTriangulo(b, c, d);
-	if(r < resultado)	resultado = r;
+	cin >> entrada;
+	x0 = entrada[0];
+	y0 = entrada[1];
 	
-	r = buscaTriangulo(a, c, d);
-	if(r < resultado)	resultado = r;
+	cin >> entrada;
+	xf = entrada[0];
+	yf = entrada[1];
+
 	
-	switch(resultado) {
-		case 1: cout << "TRIANGLE" << endl; break;
-		case 2: cout << "SEGMENT" << endl; break;
-		case 3: cout << "IMPOSSIBLE" << endl; break;
+	int vx, vy;
+	
+	vx = xf - x0;
+	vy = yf - y0;
+	
+	if(abs(vx) > abs(vy))
+		cout << abs(vx) << endl;
+	else
+		cout << abs(vy) << endl;
+				
+	x = x0;
+	y = y0;
+	
+	while(x!=xf || y!=yf) {
+		
+		if(x!=xf && y!=yf) {
+			if(x<xf) {
+				x++;
+				if(y<yf) {
+					y++;
+					cout << "RU" << endl;	
+				}
+				else {
+					y--;
+					cout << "RD" << endl;
+				}
+			}
+			else {
+				x--;
+				if(y<yf) {
+					y++;
+					cout << "LU" << endl;	
+				}
+				else {
+					y--;
+					cout << "LD" << endl;
+				}
+			}
+		}
+		
+		if(x!=xf && y==yf) {
+			if(x<xf) {
+				x++;
+				cout << "R" << endl;
+			}
+			else {
+				x--;
+				cout << "L" << endl;
+			}
+		}
+		
+		if(x==xf && y!=yf) {
+			if(y<yf) {
+				y++;
+				cout << "U" << endl;
+			}
+			else {
+				y--;
+				cout << "D" << endl;
+			}
+		}
 	}
 }
